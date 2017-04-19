@@ -7,6 +7,10 @@ require './string_hstore'
 
 # writes the XML representation of one node.
 def write_node(xml_parent, row, include_tags)
+    # Some entries have nulled X/Y coords. They will break the import process.
+    if (!row["x"] || !row["y"])
+        return
+    end
     if (include_tags)
         xml_parent.node(
           :id => row["osm_id"], 
